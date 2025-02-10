@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-// import axios from 'axios'
-// import { UserDataContext } from '../context/UserContext'
+import axios from 'axios'
+import { UserDataContext } from '../context/UserContext'
 
 
 
@@ -10,13 +10,13 @@ const UserSignup = () => {
   const [ password, setPassword ] = useState('')
   const [ firstName, setFirstName ] = useState('')
   const [ lastName, setLastName ] = useState('')
-  const [ userData, setUserData ] = useState({})
+  // const [ userData, setUserData ] = useState({})
 
   const navigate = useNavigate()
 
 
 
-  // const { user, setUser } = useContext(UserDataContext)
+  const { user, setUser } = useContext(UserDataContext)
 
 
 
@@ -32,14 +32,14 @@ const UserSignup = () => {
       password: password
     }
 
-    // const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
 
-    // if (response.status === 201) {
-    //   const data = response.data
-    //   setUser(data.user)
-    //   localStorage.setItem('token', data.token)
-    //   navigate('/home')
-    // }
+    if (response.status === 201) {
+      const data = response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home')
+    }
 
 
     setEmail('')
@@ -122,3 +122,6 @@ const UserSignup = () => {
 }
 
 export default UserSignup
+
+
+// done with the UserSignup page
