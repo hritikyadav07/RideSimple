@@ -6,6 +6,9 @@ import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
 import VehiclePanel from '../components/VehiclePanel';
 import ConfirmRide from '../components/ConfirmRide';
+// import WaitForDriver from '../components/WaitForDriver';
+import LookingForDriver from '../components/LookingForDriver';
+import WaitForDriver from '../components/WaitForDriver';
 
 function Home() {
 
@@ -18,6 +21,10 @@ function Home() {
   const vehiclePanelOpenRef = useRef(null)
   const [confirmRidePanel, setConfirmRidePanel] = useState(false)
   const confirmRidePanelRef = useRef(null)
+  const [vehicleFound, setVehicleFound] = useState(false)
+  const vehicleFoundRef = useRef(null)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
+  const waitingForDriverRef = useRef(null)
 
 
   const submitHandler = (e) => { 
@@ -58,6 +65,20 @@ function Home() {
     })
     // console.log(confirmRidePanel)
   }, [confirmRidePanel])
+
+  useGSAP(function () {
+    gsap.to(vehicleFoundRef.current, {
+      transform: vehicleFound ? 'translateY(0)' : 'translateY(100%)'
+    })
+    // console.log(confirmRidePanel)
+  }, [vehicleFound])
+
+  useGSAP(function () {
+    gsap.to(waitingForDriverRef.current, {
+      transform: waitingForDriver ? 'translateY(0)' : 'translateY(100%)'
+    })
+    // console.log(confirmRidePanel)
+  }, [waitingForDriver])
 
   return (
     <div className='h-screen relative overflow-hidden '>
@@ -111,9 +132,30 @@ function Home() {
       </div>
       
       {/* vehicle panel  */}
-      <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} vehiclePanelOpenRef={vehiclePanelOpenRef} setVehiclePanelOpen={setVehiclePanelOpen} />
+      <VehiclePanel 
+        setConfirmRidePanel={setConfirmRidePanel} 
+        vehiclePanelOpenRef={vehiclePanelOpenRef} 
+        setVehiclePanelOpen={setVehiclePanelOpen} 
+      />
       {/* confirmation component */}
-      <ConfirmRide pickup={pickup} destination={destination}  confirmRidePanelRef={confirmRidePanelRef} confirmRidePanel={confirmRidePanel} setConfirmRidePanel={setConfirmRidePanel}/>
+      <ConfirmRide 
+        pickup={pickup} 
+        destination={destination} 
+        setVehicleFound={setVehicleFound}  
+        confirmRidePanelRef={confirmRidePanelRef} 
+        confirmRidePanel={confirmRidePanel} 
+        setConfirmRidePanel={setConfirmRidePanel}
+      />
+      <LookingForDriver 
+        pickup={pickup} 
+        destination={destination} 
+        vehicleFoundRef={vehicleFoundRef} 
+        setVehicleFound={setVehicleFound}
+      />
+      <WaitForDriver
+        waitingForDriverRef={waitingForDriverRef}
+        setWaitingForDriver={setWaitingForDriver} 
+      />
     </div>
   )
 }
