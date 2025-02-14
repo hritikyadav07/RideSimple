@@ -4,6 +4,8 @@ import {useGSAP} from '@gsap/react'
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
+import VehiclePanel from '../components/VehiclePanel';
+import ConfirmRide from '../components/ConfirmRide';
 
 function Home() {
 
@@ -12,6 +14,10 @@ function Home() {
   const [panelOpen, setPanelOpen] = useState(false)
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
+  const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false)
+  const vehiclePanelOpenRef = useRef(null)
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false)
+  const confirmRidePanelRef = useRef(null)
 
 
   const submitHandler = (e) => { 
@@ -38,17 +44,32 @@ function Home() {
             opacity: 0
         })
     }
-}, [ panelOpen ])
+  }, [ panelOpen ])
+
+  useGSAP(function () {
+    gsap.to(vehiclePanelOpenRef.current, {
+      transform: vehiclePanelOpen ? 'translateY(0)' : 'translateY(100%)'
+    })
+  }, [vehiclePanelOpen])
+
+  useGSAP(function () {
+    gsap.to(confirmRidePanelRef.current, {
+      transform: confirmRidePanel ? 'translateY(0)' : 'translateY(100%)'
+    })
+    // console.log(confirmRidePanel)
+  }, [confirmRidePanel])
 
   return (
-    <div className='h-screen relative '>
+    <div className='h-screen relative overflow-hidden '>
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+      {/* map here */}
       <div className='h-screen w-screen'>
         {/* image for temporary use */}
         <img className='h-full w-full object-cover' src={image} alt="" />
       </div>
-      <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
 
+      {/* location panel here */}
+      <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
         <div className='h-[30%] p-5 bg-white relative'>
           <h5 ref={panelCloseRef}  onClick={()=>{
             setPanelOpen(false)
@@ -85,11 +106,14 @@ function Home() {
           </form>
         </div>
         <div ref={panelRef} className='bg-white h-0'>
-              <LocationSearchPanel/>
+              <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanelOpen={setVehiclePanelOpen} />
         </div>
-
       </div>
-      <div></div>
+      
+      {/* vehicle panel  */}
+      <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} vehiclePanelOpenRef={vehiclePanelOpenRef} setVehiclePanelOpen={setVehiclePanelOpen} />
+      {/* confirmation component */}
+      <ConfirmRide pickup={pickup} destination={destination}  confirmRidePanelRef={confirmRidePanelRef} confirmRidePanel={confirmRidePanel} setConfirmRidePanel={setConfirmRidePanel}/>
     </div>
   )
 }
