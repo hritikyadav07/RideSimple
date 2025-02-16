@@ -138,7 +138,7 @@ function Home() {
         setVehiclePanelOpen={setVehiclePanelOpen} 
       />
       {/* confirmation component */}
-      <ConfirmRide 
+      <ConfirmRide
         pickup={pickup} 
         destination={destination} 
         setVehicleFound={setVehicleFound}  
