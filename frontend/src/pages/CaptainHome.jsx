@@ -12,7 +12,7 @@ import axios from 'axios'
 
 const CaptainHome = () => {
 
-    const [ ridePopupPanel, setRidePopupPanel ] = useState(true)
+    const [ ridePopupPanel, setRidePopupPanel ] = useState(false)
     const [ confirmRidePopupPanel, setConfirmRidePopupPanel ] = useState(false)
 
     const ridePopupPanelRef = useRef(null)
