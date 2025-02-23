@@ -22,7 +22,7 @@ module.exports.getAddressCoordinate = async (address) => {
     }
 }
 
-module.exports.getDistanceTime = async (origin, destination) => {
+module.exports.getDistanceTime = async (origin, destination) => {  
     if (!origin || !destination) {
         throw new Error('Origin and destination are required');
     }
@@ -32,9 +32,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
     try {
-        // console.log("HII"); 
         const response = await axios.get(url);
-        // console.log(response.data); 
         if (response.data.status === 'OK') {
 
             if (response.data.rows[ 0 ].elements[ 0 ].status === 'ZERO_RESULTS') {
