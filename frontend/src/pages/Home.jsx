@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {useRef, useState, useContext, useEffect} from 'react'
 import image from '../assets/image.png'
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap';
@@ -8,7 +8,9 @@ import VehiclePanel from '../components/VehiclePanel';
 import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitForDriver from '../components/WaitForDriver';
-import axios from 'axios'
+import axios from 'axios';
+import { SocketContext } from '../context/SocketContext';
+import {UserDataContext} from '../context/userContext'
 
 function Home() {
 
@@ -28,8 +30,14 @@ function Home() {
   const [fare, setFare] = useState({})
   const [suggestions, setSuggestions] = useState([])
   const [activeField, setActiveField] = useState(null)
-
   const [vehicleType, setVehicleType] = useState('')
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserDataContext)  
+
+  useEffect(() => {
+    socket.emit('join', {userType:"user", userId:user._id});
+  }, [user])
+
 
   const submitHandler = (e) => { 
     e.preventDefault()

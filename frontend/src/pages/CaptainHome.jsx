@@ -6,7 +6,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import { useEffect, useContext } from 'react'
-// import { SocketContext } from '../context/SocketContext'
+import { SocketContext } from '../context/SocketContext'
 import { CaptainDataContext } from '../context/CaptainContext'
 import axios from 'axios'
 
@@ -19,41 +19,50 @@ const CaptainHome = () => {
     const confirmRidePopupPanelRef = useRef(null)
     const [ ride, setRide ] = useState(null)
 
-    // const { socket } = useContext(SocketContext)
+    const { socket } = useContext(SocketContext)
     const { captain } = useContext(CaptainDataContext)
 
-    // useEffect(() => {
-        // socket.emit('join', {
-        //     userId: captain._id,
-        //     userType: 'captain'
-        // })
-    //     const updateLocation = () => {
-    //         if (navigator.geolocation) {
-    //             navigator.geolocation.getCurrentPosition(position => {
 
-    //                 socket.emit('update-location-captain', {
-    //                     userId: captain._id,
-    //                     location: {
-    //                         ltd: position.coords.latitude,
-    //                         lng: position.coords.longitude
-    //                     }
-    //                 })
-    //             })
-    //         }
-    //     }
+    useEffect(() => {
+        socket.emit('join', {
+            userId: captain._id,
+            userType: 'captain'
+        })
+        // console.log("captain");
 
-    //     const locationInterval = setInterval(updateLocation, 10000)
-    //     updateLocation()
+        const updateLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
 
-    //     // return () => clearInterval(locationInterval)
-    // }, [])
+                    // console.log(position.coords.latitude, position.coords.longitude);
 
-    // socket.on('new-ride', (data) => {
+                    socket.emit('update-location-captain', {
+                        userId: captain._id,
+                        location: {
+                            ltd: position.coords.latitude,
+                            lng: position.coords.longitude
+                        }
+                    })
+                }, error => {
+                    console.error("Error getting location: ", error);
+                })
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        }
 
-    //     setRide(data)
-    //     setRidePopupPanel(true)
+        const locationInterval = setInterval(updateLocation, 60000)
+        updateLocation()
 
-    // })
+        return () => clearInterval(locationInterval)
+    }, [])
+
+    socket.on('new-ride', (data) => {
+
+        setRide(data)
+        setRidePopupPanel(true)
+
+    })
 
     async function confirmRide() {
 
@@ -117,7 +126,9 @@ const CaptainHome = () => {
 
             {/* captain details tab */}
             <div className='h-2/5 p-6'>
-                <CaptainDetails />
+                <CaptainDetails
+                //   setCaptain = {setCaptain}
+                />
             </div>
             
             {/* ride popup */}
