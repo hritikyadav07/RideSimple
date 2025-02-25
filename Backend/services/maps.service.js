@@ -1,4 +1,5 @@
 const axios = require('axios');
+const captainModel = require('../models/captain.model');
 
 module.exports.getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -22,7 +23,7 @@ module.exports.getAddressCoordinate = async (address) => {
     }
 }
 
-module.exports.getDistanceTime = async (origin, destination) => {
+module.exports.getDistanceTime = async (origin, destination) => {  
     if (!origin || !destination) {
         throw new Error('Origin and destination are required');
     }
@@ -32,9 +33,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
     try {
-        // console.log("HII"); 
         const response = await axios.get(url);
-        // console.log(response.data); 
         if (response.data.status === 'OK') {
 
             if (response.data.rows[ 0 ].elements[ 0 ].status === 'ZERO_RESULTS') {
@@ -71,4 +70,22 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
         console.error(err);
         throw err;
     }
+}
+
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+
+    // radius in km
+
+
+    const captains = await captainModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [ [ ltd, lng ], radius / 6371 ]
+            }
+        }
+    });
+
+    return captains;
+
+
 }

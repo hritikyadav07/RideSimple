@@ -229,3 +229,103 @@ Requires a valid JWT token in the Authorization header or cookie.
 ### Example Response
 
 - `message` (string): Logout successfully.
+
+## `/rides/create` Endpoint
+
+### Description
+Creates a new ride request. Requires a valid JWT token.
+
+### HTTP Method
+`POST`
+
+### Endpoint
+`/rides/create`
+
+### Request Body
+The request body should be in JSON format and include the following fields:
+- `pickup` (string, required): Pickup location (minimum 3 characters).
+- `destination` (string, required): Destination location (minimum 3 characters).
+- `vehicleType` (string, required): Must be one of [ 'auto', 'car', 'moto' ].
+
+### Example Response
+- `ride` (object):
+  - `id` (string): Ride identifier.
+  - `pickup` (string): Pickup location.
+  - `destination` (string): Destination location.
+  - `vehicleType` (string): Type of vehicle.
+  - `status` (string): Current status of the ride.
+
+--------------------------------------------------
+
+## `/maps/get-coordinates` Endpoint
+
+### Description
+Retrieves latitude and longitude coordinates for a given address.
+
+### HTTP Method
+`GET`
+
+### Endpoint
+`/maps/get-coordinates`
+
+### Query Parameters
+- `address` (string, required): Address to search (minimum 3 characters).
+
+### Authentication
+Requires a valid JWT token in the Authorization header.
+
+### Example Response
+- `coordinates` (object):
+  - `lat` (number): Latitude.
+  - `lng` (number): Longitude.
+
+--------------------------------------------------
+
+## `/maps/get-distance-time` Endpoint
+
+### Description
+Calculates distance and estimated travel time between the origin and destination.
+
+### HTTP Method
+`GET`
+
+### Endpoint
+`/maps/get-distance-time`
+
+### Query Parameters
+- `origin` (string, required): Starting location (minimum 3 characters).
+- `destination` (string, required): Destination location (minimum 3 characters).
+
+### Authentication
+Requires a valid JWT token in the Authorization header.
+
+### Example Response
+- `distance` (string): Distance between the locations.
+- `duration` (string): Estimated travel time.
+
+--------------------------------------------------
+
+## `/maps/get-suggestions` Endpoint
+
+### Description
+Provides autocomplete suggestions for addresses based on partial input.
+
+### HTTP Method
+`GET`
+
+### Endpoint
+`/maps/get-suggestions`
+
+### Query Parameters
+- `input` (string, required): Partial address input. Must be at least 3 characters.
+
+### Authentication
+Requires a valid JWT token in the Authorization header.
+
+### Example Response
+{
+  "suggestions": [
+    "123 Main St, City, Country",
+    "124 Main St, City, Country"
+  ]
+}

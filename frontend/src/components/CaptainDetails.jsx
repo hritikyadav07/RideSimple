@@ -1,20 +1,19 @@
 
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { CaptainDataContext } from '../context/CaptainContext'
 
-const CaptainDetails = () => {
+const CaptainDetails = (props) => {
 
-    const { captain } = useContext(CaptainDataContext)
+    const { captain } = useContext(CaptainDataContext);
 
     return (
         <div>
             <div className='flex items-center justify-between'>
-                {/* captain image + name */}
                 <div className='flex items-center justify-start gap-3'>
                     <img className='h-10 w-10 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s" alt="" />
                     <h4 className='text-lg font-medium capitalize'>
-                        captain name
-                        {/* {captain.fullname.firstname + " " + captain.fullname.lastname} */}
+                        {captain.fullname.firstname + " " + captain.fullname.lastname}
+                        {/* Captain Name */}
                         </h4>
                 </div>
                 <div>
