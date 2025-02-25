@@ -33,11 +33,28 @@ function Home() {
   const [vehicleType, setVehicleType] = useState('')
   const { socket } = useContext(SocketContext);
   const { user } = useContext(UserDataContext)  
+  const [ride, setRide] = useState(null)
+
 
   useEffect(() => {
     socket.emit('join', {userType:"user", userId:user._id});
   }, [user])
 
+  useEffect(() => {
+    const rideConfirmedHandler = (ride) => {
+      // console.log("RIdeDeatils:", ride);
+      setRide(ride);
+      setWaitingForDriver(true);
+      setVehicleFound(false);
+    };
+
+    socket.on('ride-confirmed', rideConfirmedHandler);
+    
+    // Cleanup listener on unmount
+    return () => {
+      socket.off('ride-confirmed', rideConfirmedHandler);
+    };
+  }, [socket]);
 
   const submitHandler = (e) => { 
     e.preventDefault()
@@ -46,6 +63,7 @@ function Home() {
   // Function to fetch suggestions from backend
   const fetchSuggestions = async (query) => {
     try {
+      if(query.length < 3) return; // Don't fetch suggestions if query is less than 3 characters
       // console.log('Fetching suggestions for:', query);
       const token = localStorage.getItem('token'); // Retrieve JWT token if available
       const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions?input=${query}`, {
@@ -101,7 +119,7 @@ function Home() {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-    console.log(response.data);
+    // console.log(response.data);
 
   }
 
@@ -137,7 +155,6 @@ function Home() {
     gsap.to(confirmRidePanelRef.current, {
       transform: confirmRidePanel ? 'translateY(0)' : 'translateY(100%)'
     })
-    // console.log(confirmRidePanel)
   }, [confirmRidePanel])
 
   useGSAP(function () {
@@ -221,7 +238,6 @@ function Home() {
             {/* vehicle panel  */}
       <VehiclePanel 
         fare={fare}
-        
         vehiclePanelOpen = {vehiclePanelOpen}
         setVehicleType={setVehicleType}
         setConfirmRidePanel={setConfirmRidePanel} 
@@ -250,6 +266,7 @@ function Home() {
         setVehicleFound={setVehicleFound}
       />
       <WaitForDriver
+        ride={ride}
         waitingForDriverRef={waitingForDriverRef}
         setWaitingForDriver={setWaitingForDriver} 
       />

@@ -60,13 +60,38 @@ module.exports.createRide = async ({
 
     const fare = await getFare(pickup, destination);
 
+    const dist = await mapsService.getDistanceTime(pickup, destination);
+    const distance = Math.round(dist.distance.value / 1000);
+    const duration = Math.floor(dist.duration.value/60);
+
     const ride = rideModel.create({
         user,
         pickup,
         destination,
+        distance,
+        duration,
         otp: getOtp(6),
         fare: fare[ vehicleType ]
     })
+
+    return ride;
+}
+
+module.exports.confirmRide = async ({ rideId, captainId }) => {
+    if(!rideId) {
+        throw new Error('Invalid ride id');
+    }
+
+    await rideModel.findOneAndUpdate(
+        { _id: rideId }, // changed filter from id to _id
+        {
+            status: 'accepted',
+            captain: captainId
+        }
+    );
+
+    // populate both captain and user so that user.socketId is available
+    const ride = await rideModel.findOne({ _id: rideId }).populate('captain').populate('user').select('+otp');
 
     return ride;
 }
