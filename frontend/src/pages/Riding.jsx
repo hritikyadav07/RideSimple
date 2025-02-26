@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { UserDataContext } from '../context/userContext';
+import LiveTracking from '../components/LiveTracking';
 
 const Riding = () => {
+  const { rideData} = useContext(UserDataContext);
+
+  // console.log(rideData)
+
+
   return (
     <div className='h-screen'>
     <Link to='/home' className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
         <i className="text-lg font-medium ri-home-5-line"></i>
     </Link>
     <div className='h-1/2'>
-        {/* <LiveTracking /> */}
+  
+        <LiveTracking />
 
     </div>
     <div className='h-1/2 p-4'>
@@ -16,17 +24,17 @@ const Riding = () => {
         <img className='h-12' src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg" alt="" />
         <div className='text-right'>
           <h2 className='text-lg font-medium capitalize'>
-            {/* {props.ride?.captain.fullname.firstname} */}
-            captain naam
+            {rideData?.captain.fullname.firstname}
+            {/* captain naam */}
             </h2>
           <h4 className='text-xl font-semibold -mt-1 -mb-1'>
-            vehicle plate
-            {/* {props.ride?.captain.vehicle.plate} */}
+            {/* vehicle plate */}
+            {rideData?.captain.vehicle.plate}
             </h4>
           <p className='text-sm text-gray-600'>Maruti Suzuki Alto</p>
           <h1 className='text-lg font-semibold'> 
-            otp
-             {/* {props.ride?.otp}  */}
+            {/* otp */}
+             {rideData?.otp} 
              </h1>
         </div>
       </div>
@@ -36,20 +44,20 @@ const Riding = () => {
           <div className='flex items-center gap-5 p-3 border-b-2'>
             <i className="ri-map-pin-user-fill"></i>
             <div>
-              <h3 className='text-lg font-medium'>562/11-A</h3>
-              <p className='text-sm -mt-1 text-gray-600'>
-                jha hai abhi
-                {/* {props.ride?.pickup} */}
+              <h3 className='text-lg font-medium'>From:</h3>
+              <p className='text-sm -mt-1 text-gray-700'>
+                {/* jha hai abhi */}
+                {rideData?.pickup}
                 </p>
             </div>
           </div>
           <div className='flex items-center gap-5 p-3 border-b-2'>
             <i className="text-lg ri-map-pin-2-fill"></i>
             <div>
-              <h3 className='text-lg font-medium'>562/11-A</h3>
-              <p className='text-sm -mt-1 text-gray-600'>
-                jha jana hai
-                {/* {props.ride?.destination} */}
+              <h3 className='text-lg font-medium'>To:</h3>
+              <p className='text-sm -mt-1 text-gray-700'>
+                {/* jha jana hai */}
+                {rideData?.destination}
                 </p>
             </div>
           </div>
@@ -57,10 +65,10 @@ const Riding = () => {
             <i className="ri-currency-line"></i>
             <div>
               <h3 className='text-lg font-medium'>
-                paisa
-                {/* ₹{props.ride?.fare}  */}
+                {/* paisa */}
+                ₹{rideData?.fare} 
                 </h3>
-              <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
+              <p className='text-sm -mt-1 text-gray-600'>Cash</p>
             </div>
           </div>
         </div>
