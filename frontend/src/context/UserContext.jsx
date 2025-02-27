@@ -12,10 +12,11 @@ const UserContext = ({ children }) => {
             lastName: ''
         }
     })
+    const [rideData, setRideData] = useState(null)
 
     return (
         <div>
-            <UserDataContext.Provider value={{ user, setUser }}>
+            <UserDataContext.Provider value={{ user, setUser, rideData, setRideData }}>
                 {children}
             </UserDataContext.Provider>
         </div>

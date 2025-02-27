@@ -10,7 +10,10 @@ import LookingForDriver from '../components/LookingForDriver';
 import WaitForDriver from '../components/WaitForDriver';
 import axios from 'axios';
 import { SocketContext } from '../context/SocketContext';
-import {UserDataContext} from '../context/userContext'
+import {UserDataContext} from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking';
+
 
 function Home() {
 
@@ -32,27 +35,46 @@ function Home() {
   const [activeField, setActiveField] = useState(null)
   const [vehicleType, setVehicleType] = useState('')
   const { socket } = useContext(SocketContext);
-  const { user } = useContext(UserDataContext)  
-  const [ride, setRide] = useState(null)
+  const { user, setRideData, rideData } = useContext(UserDataContext)  
+  // const [ride, setRide] = useState(null);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
     socket.emit('join', {userType:"user", userId:user._id});
   }, [user])
 
+  // confirm ride event listener
   useEffect(() => {
     const rideConfirmedHandler = (ride) => {
       // console.log("RIdeDeatils:", ride);
-      setRide(ride);
+      setRideData(ride);
       setWaitingForDriver(true);
       setVehicleFound(false);
     };
-
     socket.on('ride-confirmed', rideConfirmedHandler);
     
     // Cleanup listener on unmount
     return () => {
       socket.off('ride-confirmed', rideConfirmedHandler);
+    };
+  }, [socket]);
+
+  // ride started event listener
+  useEffect(() => {
+    
+    const rideStartedHandler = (ride) => {
+      // console.log("Ride Started:", ride);
+      setWaitingForDriver(false);
+      setRideData(ride);
+      navigate(`/riding`);
+    }
+
+    socket.on('ride-started', rideStartedHandler);
+    
+    // Cleanup listener on unmount
+    return () => {
+      socket.off('ride-started', rideStartedHandler);
     };
   }, [socket]);
 
@@ -177,8 +199,7 @@ function Home() {
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
       {/* map here */}
       <div className='h-screen w-screen'>
-        {/* image for temporary use */}
-        <img className='h-full w-full object-cover' src={image} alt="" />
+        <LiveTracking/>
       </div>
 
       {/* location panel here */}
@@ -266,7 +287,7 @@ function Home() {
         setVehicleFound={setVehicleFound}
       />
       <WaitForDriver
-        ride={ride}
+        ride={rideData}
         waitingForDriverRef={waitingForDriverRef}
         setWaitingForDriver={setWaitingForDriver} 
       />
