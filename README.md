@@ -20,12 +20,12 @@ RideSimple is a full-stack ride-hailing application split between a modern React
 
 ## How to Run
 - For the Frontend:
-  - Open a terminal in `d:/Projects/RideSimple/frontend`.
+  - Open a terminal in `RideSimple/frontend`.
   - Run: npm install
   - Run: npm run dev
   - Open your browser at the localhost URL displayed.
 - For the Backend:
-  - Open a terminal in `d:/Projects/RideSimple/Backend`.
+  - Open a terminal in `RideSimple/Backend`.
   - Run: npm install
   - Configure your environment variables in .env.
   - Run: npx nodemon
