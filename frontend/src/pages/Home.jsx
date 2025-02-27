@@ -12,6 +12,7 @@ import axios from 'axios';
 import { SocketContext } from '../context/SocketContext';
 import {UserDataContext} from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking';
 
 
 function Home() {
@@ -198,8 +199,7 @@ function Home() {
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
       {/* map here */}
       <div className='h-screen w-screen'>
-        {/* image for temporary use */}
-        <img className='h-full w-full object-cover' src={image} alt="" />
+        <LiveTracking/>
       </div>
 
       {/* location panel here */}

@@ -1,12 +1,30 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { UserDataContext } from '../context/userContext';
+import { UserDataContext } from '../context/UserContext';
 import LiveTracking from '../components/LiveTracking';
+import { SocketContext } from '../context/SocketContext';
+import { useNavigate } from 'react-router-dom';
 
 const Riding = () => {
   const { rideData} = useContext(UserDataContext);
+  
+  const { socket } = useContext(SocketContext);
+  const navigate = useNavigate();
 
-  // console.log(rideData)
+  
+  useEffect(() => {
+      
+      const rideEndHandler = () => {
+        navigate(`/home`);
+      }
+  
+      socket.on('ride-ended', rideEndHandler);
+      
+      // Cleanup listener on unmount
+      return () => {
+        socket.off('ride-started', rideEndHandler);
+      };
+    }, [socket]);
 
 
   return (
