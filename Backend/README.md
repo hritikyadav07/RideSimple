@@ -5,7 +5,7 @@ This backend is built using Node.js and Express. It manages user, captain, ride,
 ## Setup and Connection Guide
 
 1. Clone the repository.
-2. Navigate to the backend directory: cd /d:/Projects/RideSimple/Backend
+2. Navigate to the backend directory: cd `RideSimple/Backend`
 3. Install dependencies: npm install
 4. Configure environment variables: create/edit .env as needed.
 5. Start the server: npx nodemon
