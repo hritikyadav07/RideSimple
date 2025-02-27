@@ -1,3 +1,23 @@
+# Backend Overview
+
+This backend is built using Node.js and Express. It manages user, captain, ride, and mapping functionalities.
+
+## Setup and Connection Guide
+
+1. Clone the repository.
+2. Navigate to the backend directory: cd /d:/Projects/RideSimple/Backend
+3. Install dependencies: npm install
+4. Configure environment variables: create/edit .env as needed.
+5. Start the server: npx nodemon
+6. Test endpoints using tools like Postman.
+
+## Socket.io Integration
+
+This backend uses Socket.io for real-time communication. When users or captains connect, their socket ids are stored, enabling:
+- User connection and notifications.
+- Real-time ride updates for captains.
+- Location updates from captains during rides.
+
 # Backend API Documentation
 
 ## `/users/register` Endpoint
@@ -39,10 +59,6 @@ Authenticates a user using their email and password, returning a JWT token upon 
 ### HTTP Method
 
 `POST`
-
-### Endpoint
-
-`/users/login`
 
 ### Request Body
 
@@ -157,10 +173,6 @@ Authenticates a captain using their email and password, returning a JWT token up
 
 `POST`
 
-### Endpoint
-
-`/captains/login`
-
 ### Request Body
 
 The request body should be in JSON format and include the following fields:
@@ -238,9 +250,6 @@ Creates a new ride request. Requires a valid JWT token.
 ### HTTP Method
 `POST`
 
-### Endpoint
-`/rides/create`
-
 ### Request Body
 The request body should be in JSON format and include the following fields:
 - `pickup` (string, required): Pickup location (minimum 3 characters).
@@ -255,7 +264,86 @@ The request body should be in JSON format and include the following fields:
   - `vehicleType` (string): Type of vehicle.
   - `status` (string): Current status of the ride.
 
---------------------------------------------------
+
+## `/rides/get-fare` Endpoint
+
+### Description
+Retrieves fare estimate for a given ride based on pickup and destination locations.
+
+### HTTP Method
+`GET`
+
+### Query Parameters
+- `pickup` (string, required): Pickup location (minimum 3 characters).
+- `destination` (string, required): Destination location (minimum 3 characters).
+
+### Authentication
+Requires a valid JWT token in the Authorization header.
+
+### Example Response
+- `fare` (string): Estimated fare for the ride.
+
+
+
+## `/rides/confirm` Endpoint
+
+### Description
+Confirms a ride request by the captain.
+
+### HTTP Method
+`POST`
+
+### Request Body
+The request body should be in JSON format and include:
+- `rideId` (string, required): Valid ride identifier (MongoId).
+
+### Authentication
+Requires a valid JWT token in the Authorization header for a captain.
+
+### Example Response
+- `ride` (object): Updated ride details after confirmation.
+
+
+
+## `/rides/start-ride` Endpoint
+
+### Description
+Starts the ride after validating the OTP.
+
+### HTTP Method
+`GET`
+
+### Query Parameters
+- `rideId` (string, required): Valid ride identifier (MongoId).
+- `otp` (string, required): One-time password (6 digits).
+
+### Authentication
+Requires a valid JWT token in the Authorization header for a captain.
+
+### Example Response
+- `ride` (object): Ride details with updated status.
+
+
+
+## `/rides/end-ride` Endpoint
+
+### Description
+Ends the ongoing ride.
+
+### HTTP Method
+`POST`
+
+### Request Body
+The request body should be in JSON format and include:
+- `rideId` (string, required): Valid ride identifier (MongoId).
+
+### Authentication
+Requires a valid JWT token in the Authorization header for a captain.
+
+### Example Response
+- `ride` (object): Ride details with final status.
+
+
 
 ## `/maps/get-coordinates` Endpoint
 
@@ -279,7 +367,7 @@ Requires a valid JWT token in the Authorization header.
   - `lat` (number): Latitude.
   - `lng` (number): Longitude.
 
---------------------------------------------------
+
 
 ## `/maps/get-distance-time` Endpoint
 
@@ -289,8 +377,6 @@ Calculates distance and estimated travel time between the origin and destination
 ### HTTP Method
 `GET`
 
-### Endpoint
-`/maps/get-distance-time`
 
 ### Query Parameters
 - `origin` (string, required): Starting location (minimum 3 characters).
@@ -303,7 +389,7 @@ Requires a valid JWT token in the Authorization header.
 - `distance` (string): Distance between the locations.
 - `duration` (string): Estimated travel time.
 
---------------------------------------------------
+
 
 ## `/maps/get-suggestions` Endpoint
 
@@ -313,8 +399,6 @@ Provides autocomplete suggestions for addresses based on partial input.
 ### HTTP Method
 `GET`
 
-### Endpoint
-`/maps/get-suggestions`
 
 ### Query Parameters
 - `input` (string, required): Partial address input. Must be at least 3 characters.

@@ -1,8 +1,20 @@
-# React + Vite
+# Frontend Instructions
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To run the frontend:
+1. Open a terminal in d:/Projects/RideSimple/frontend
+2. Run: npm install
+3. Run: npm run dev
+4. Open your browser at the displayed localhost URL
 
-Currently, two official plugins are available:
+## Code Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project uses React to build a modern ride-sharing interface. Key files include:
+- Start.jsx: The landing page that directs users to the login page.
+- Riding.jsx: Displays ride details with live tracking and payment options.
+- Home.jsx: The user dashboard featuring location search, fare calculation, and ride confirmation panels.
+- CaptainSignup.jsx & CaptainLogin.jsx: Pages for captains to register and log in.
+- CaptainHome.jsx & CaptainRiding.jsx: Interfaces for captains showing live tracking and ride management.
+- Additional wrappers and context files handle authentication and state management.
+
+Explore the source code for detailed functionality.
+
