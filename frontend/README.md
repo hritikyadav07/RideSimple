@@ -3,9 +3,9 @@
 ## Getting Started
 
 To run the frontend:
-1. Open a terminal in d:/Projects/RideSimple/frontend
-2. Run: `npm install`
-3. Run: `npm run dev`
+1. Open a terminal in `RideSimple/frontend`
+2. Run: npm install
+3. Run: npm run dev
 4. Open your browser at the displayed localhost URL
 
 ## Pages Overview
