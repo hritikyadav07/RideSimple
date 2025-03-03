@@ -111,12 +111,12 @@ const CaptainHome = () => {
     }, [ confirmRidePopupPanel ])
 
     return (
-        <div className='h-screen'>
+        <div className='h-screen bg-gray-900 text-white'>
 
             {/* top bar */}
             <div className='fixed p-6 top-0 flex items-center justify-between w-screen'>
                 <Link to='/captain-home' className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-                <Link to='/captain-riding' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
+                <Link to='/captain-riding' className='h-10 w-10 bg-gray-700 text-white flex items-center justify-center rounded-full'>
                     <i className="text-lg font-medium ri-logout-box-r-line"></i>
                 </Link>
             </div>
@@ -124,16 +124,15 @@ const CaptainHome = () => {
             {/* map image */}
             <div className='h-3/5'>
                 <LiveTracking/>
-                </div>
+            </div>
 
             {/* captain details tab */}
-            <div className='h-2/5 p-6'>
-                <CaptainDetails
-                />
+            <div className='h-2/5 p-6 bg-gray-800'>
+                <CaptainDetails/>
             </div>
             
             {/* ride popup */}
-            <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
+            <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-gray-800 text-white px-3 py-10 pt-12'>
                 <RidePopUp
                     ride={ride}
                     setRidePopupPanel={setRidePopupPanel}
@@ -142,7 +141,7 @@ const CaptainHome = () => {
                 />
             </div>
             {/* confirm ride popup which will start the ride */}
-            <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
+            <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-gray-800 text-white px-3 py-10 pt-12'>
                 <ConfirmRidePopUp
                     ride={ride}
                     setConfirmRidePopupPanel={setConfirmRidePopupPanel} 
