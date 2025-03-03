@@ -26,8 +26,6 @@ To run the frontend:
   - Pickup and destination details
   - Fare information
   - Payment processing with redirect
-- **RideHistory.jsx**: Log of past rides with details and receipts.
-- **Profile.jsx**: User profile management and preferences.
 
 ### Captain-facing Pages
 - **CaptainLogin.jsx & CaptainSignup.jsx**: Authentication for drivers with vehicle registration.
@@ -41,12 +39,9 @@ To run the frontend:
   - Navigation directions
   - Passenger details
   - Ride completion options
-- **CaptainEarnings.jsx**: Financial dashboard with earnings breakdown and statistics.
 
 ## Core Components
 - **LiveTracking.jsx**: Real-time map component using Mapbox integration.
-- **FareCalculator.jsx**: Algorithm for dynamic pricing based on distance and demand.
-- **PaymentProcessor.jsx**: Secure payment handling interface.
 - **LocationSearch.jsx**: Geocoding and location search component.
 
 ## Project Screenshots
@@ -63,7 +58,7 @@ To run the frontend:
 ![Captain Dashboard](./public/captainDashboard.png)
 ![Ride Request](./public/RideRequest.png)
 ![Navigation Screen](./public/NavRIde.png)
-    
+
 
 ## Technology Stack
 - React.js with Hooks and Context API
