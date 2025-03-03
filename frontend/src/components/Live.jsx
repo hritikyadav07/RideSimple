@@ -11,86 +11,96 @@ const center = {
     lng: -38.523
 };
 
-// Dark theme map styles
-const darkMapStyle = [
-    { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-    { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-    { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+// Added dark theme styles for Google Maps
+const darkThemeStyle = [
+    { elementType: "geometry", stylers: [{ color: "#212121" }] },
+    { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+    { elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+    { elementType: "labels.text.stroke", stylers: [{ color: "#212121" }] },
+    {
+        featureType: "administrative",
+        elementType: "geometry",
+        stylers: [{ color: "#757575" }]
+    },
+    {
+        featureType: "administrative.country",
+        elementType: "labels.text.fill",
+        stylers: [{ color: "#9e9e9e" }]
+    },
+    {
+        featureType: "administrative.land_parcel",
+        stylers: [{ visibility: "off" }]
+    },
     {
         featureType: "administrative.locality",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        stylers: [{ color: "#bdbdbd" }]
     },
     {
         featureType: "poi",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        stylers: [{ color: "#757575" }]
     },
     {
         featureType: "poi.park",
         elementType: "geometry",
-        stylers: [{ color: "#263c3f" }],
+        stylers: [{ color: "#181818" }]
     },
     {
         featureType: "poi.park",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#6b9a76" }],
+        stylers: [{ color: "#616161" }]
+    },
+    {
+        featureType: "poi.park",
+        elementType: "labels.text.stroke",
+        stylers: [{ color: "#1b1b1b" }]
     },
     {
         featureType: "road",
-        elementType: "geometry",
-        stylers: [{ color: "#38414e" }],
-    },
-    {
-        featureType: "road",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#212a37" }],
+        elementType: "geometry.fill",
+        stylers: [{ color: "#2c2c2c" }]
     },
     {
         featureType: "road",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#9ca5b3" }],
+        stylers: [{ color: "#8a8a8a" }]
+    },
+    {
+        featureType: "road.arterial",
+        elementType: "geometry",
+        stylers: [{ color: "#373737" }]
     },
     {
         featureType: "road.highway",
         elementType: "geometry",
-        stylers: [{ color: "#746855" }],
+        stylers: [{ color: "#3c3c3c" }]
     },
     {
-        featureType: "road.highway",
-        elementType: "geometry.stroke",
-        stylers: [{ color: "#1f2835" }],
+        featureType: "road.highway.controlled_access",
+        elementType: "geometry",
+        stylers: [{ color: "#4e4e4e" }]
     },
     {
-        featureType: "road.highway",
+        featureType: "road.local",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#f3d19c" }],
+        stylers: [{ color: "#616161" }]
     },
     {
         featureType: "transit",
-        elementType: "geometry",
-        stylers: [{ color: "#2f3948" }],
-    },
-    {
-        featureType: "transit.station",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#d59563" }],
+        stylers: [{ color: "#757575" }]
     },
     {
         featureType: "water",
         elementType: "geometry",
-        stylers: [{ color: "#17263c" }],
+        stylers: [{ color: "#000000" }]
     },
     {
         featureType: "water",
         elementType: "labels.text.fill",
-        stylers: [{ color: "#515c6d" }],
-    },
-    {
-        featureType: "water",
-        elementType: "labels.text.stroke",
-        stylers: [{ color: "#17263c" }],
-    },
+        stylers: [{ color: "#3d3d3d" }]
+    }
 ];
 
 const LiveTracking = () => {
@@ -141,13 +151,7 @@ const LiveTracking = () => {
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
                 zoom={15}
-                options={{
-                    styles: darkMapStyle,
-                    zoomControl: true,
-                    mapTypeControl: false,
-                    streetViewControl: false,
-                    fullscreenControl: false,
-                }}
+                options={{ styles: darkThemeStyle }} // applied dark theme
             >
                 <Marker position={currentPosition} />
             </GoogleMap>

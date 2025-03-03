@@ -1,5 +1,5 @@
 import React, {useRef, useState, useContext, useEffect} from 'react'
-import image from '../assets/image.png'
+// import image from '../assets/image.png'
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
@@ -13,7 +13,8 @@ import { SocketContext } from '../context/SocketContext';
 import {UserDataContext} from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import LiveTracking from '../components/LiveTracking';
-
+import logo from '../assets/logoWhite.png';
+import { Link } from 'react-router-dom';
 
 function Home() {
 
@@ -195,8 +196,17 @@ function Home() {
   
 
   return (
-    <div className='h-screen relative overflow-hidden '>
-      <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+    <div className='h-screen relative overflow-hidden bg-gray-900'>
+      {/* Changed position and added z-index, and conditionally hide when panel is open */}
+      {!panelOpen && (
+        <div className='fixed p-2 top-0 flex items-center justify-between w-screen z-10'>
+          <img className='w-72 pl-3 pt-6' src={logo} alt="" />
+          <Link to='/logout' className='h-10 w-10  text-white flex items-center justify-center rounded-full'>
+              <i className="text-2xl font-bold  ri-logout-box-r-line"></i>
+          </Link>
+        </div>
+      )}
+      
       {/* map here */}
       <div className='h-screen w-screen'>
         <LiveTracking/>
@@ -204,14 +214,14 @@ function Home() {
 
       {/* location panel here */}
       <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
-        <div className='h-[30%] p-5 bg-white relative'>
-          <h5 ref={panelCloseRef}  onClick={()=>{ setPanelOpen(false) }} className='absolute right-6 top-6 text-2xl'>
+        <div className='h-[30%] p-5 bg-gray-800 text-white relative'>
+          <h5 ref={panelCloseRef}  onClick={()=>{ setPanelOpen(false) }} className='absolute right-6 top-6 text-2xl text-gray-300'>
             <i className='ri-arrow-down-wide-line'></i>
           </h5>
           
-          <h4 className='text-2xl font-semibold'>Find a trip</h4>
+          <h4 className='text-2xl font-semibold text-white'>Find a trip</h4>
           <form onSubmit={(e)=> submitHandler(e)}>
-            <div className='line absolute h-16 w-1 top-[45%] left-10 bg-gray-700 rounded-full '></div>
+            <div className='line absolute h-20 w-1  top-[35%] left-10 bg-gray-400 rounded-full '></div>
             <input 
               onFocus={() => {
                 setActiveField('pickup');
@@ -223,7 +233,7 @@ function Home() {
                 fetchSuggestions(e.target.value)
               }}
               value={pickup}
-              className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5 ' 
+              className='bg-gray-700 text-white px-12 py-2 text-lg rounded-lg w-full mt-5 placeholder-gray-400' 
               placeholder='Add a pickup Location' 
               type="text" 
             />
@@ -238,15 +248,15 @@ function Home() {
                 fetchSuggestions(e.target.value)
                 }}
                 value={destination}
-                className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-5 ' 
+                className='bg-gray-700 text-white px-12 py-2 text-lg rounded-lg w-full mt-5 placeholder-gray-400' 
                 placeholder='Enter Your Destination' 
                 type="text" />
               </form>
-            <button onClick={findTrip} className='bg-blue-500 text-white px-4 py-2 rounded-lg mt-3 w-full  hover:bg-blue-600 transition duration-300'>
+            <button onClick={findTrip} className='bg-blue-600 text-white px-4 py-2 rounded-lg mt-3 w-full hover:bg-blue-700 transition duration-300'>
               Find Trip
             </button>
         </div>
-        <div ref={panelRef} className='bg-white h-0 '>
+        <div ref={panelRef} className='bg-gray-800 h-0'>
           <LocationSearchPanel 
           setPanelOpen={setPanelOpen} 
           setVehiclePanelOpen={setVehiclePanelOpen}
