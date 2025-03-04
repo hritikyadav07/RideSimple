@@ -1,17 +1,32 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import image from '../assets/front.png'
 
 const Start = () => {
   return (
-    <div>
-      {/* put link to the homepage image url down && change image of the logo */}
-        <div className=' bg-cover bg-bottom bg-[url(https://cdn.openai.com/labs/images/A%203D%20render%20of%20an%20astronaut%20walking%20in%20a%20green%20desert.webp?v=1)] h-screen pt-8  flex justify-between flex-col w-full bg-red-400'>
-        <img className='w-14 ml-8' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-            <div className='bg-white pb-7 py-4 px-4'>
-                <h2 className='text-3xl font-bold'>Get Started with RideSimple</h2>
-                <Link to='/login' className=' flex items-center justify-center w-full bg-black text-white py-3 rounded mt-5'>Continue</Link>
-            </div>
+    <div style={{ fontFamily: "'Times New Roman', serif" }}>
+      <div
+        className="bg-cover bg-bottom h-screen pt-10  flex justify-between flex-col w-full"
+        style={{ backgroundImage: `url(${image})` }}
+      >
+        <img className="w-80 -ml-20 -mt-6"  alt="Logo"/>
+        <div className="pb-7 py-4 px-4 inset-0 bottom-0 bg-gradient-to-b from-gray-400/50 to-transparent ">
+          <div className="text-3xl font-bold text-white">
+           <span className='text-black'>Ride</span>  with ease arrive with style
+          </div>
+          <h4 className="text-white">
+            Wherever life takes you—from quick commutes to grand adventures—ride
+            with comfort, safety, and reliability. Your journey matters, and
+            we’re here to make every mile effortless.
+          </h4>
+          <Link
+            to="/login"
+            className="flex items-center justify-center w-[90%] bg-black text-white py-3 rounded-xl mt-5 ml-4"
+          >
+            Continue
+          </Link>
         </div>
+      </div>
     </div>
   )
 }
