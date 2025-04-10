@@ -19,6 +19,16 @@ router.get('/get-fare',
     rideController.getFare
 )
 
+router.get('/active',
+    authMiddleware.authUser,
+    rideController.getActiveUserRide
+);
+
+router.get('/captain-active',
+    authMiddleware.authCaptain,
+    rideController.getActiveCaptainRide
+);
+
 router.post('/confirm',
     authMiddleware.authCaptain,
     body('rideId').isMongoId().withMessage('Invalid ride id'),

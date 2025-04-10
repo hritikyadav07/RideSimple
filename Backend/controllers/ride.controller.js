@@ -139,3 +139,37 @@ module.exports.endRide = async (req, res) => {
         return res.status(500).json({ message: err.message });
     } 
 }
+
+module.exports.getActiveUserRide = async (req, res) => {
+    try {
+        const activeRide = await rideModel.findOne({
+            user: req.user._id,
+            status: { $in: ['pending', 'accepted', 'ongoing'] }
+        }).populate('captain');
+
+        if (!activeRide) {
+            return res.status(404).json({ message: 'No active ride found' });
+        }
+
+        return res.status(200).json({ ride: activeRide });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};
+
+module.exports.getActiveCaptainRide = async (req, res) => {
+    try {
+        const activeRide = await rideModel.findOne({
+            captain: req.captain._id,
+            status: { $in: ['accepted', 'ongoing'] }
+        }).populate('user');
+
+        if (!activeRide) {
+            return res.status(404).json({ message: 'No active ride found' });
+        }
+
+        return res.status(200).json({ ride: activeRide });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+};

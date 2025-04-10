@@ -17,26 +17,45 @@ const CaptainLogin = () => {
 
 
   const submitHandler = async (e) => {
-    e.preventDefault();
-    const captain = {
+    e.preventDefault()
+
+    const user = {
       email: email,
-      password
+      password: password
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain)
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, user)
 
     if (response.status === 200) {
       const data = response.data
-
       setCaptain(data.captain)
       localStorage.setItem('token', data.token)
-      navigate('/captain-home')
-
+      
+      // Check for ongoing rides
+      try {
+        const ridesResponse = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/rides/captain-active`,
+          {
+            headers: { Authorization: `Bearer ${data.token}` }
+          }
+        );
+        
+        if (ridesResponse.data && ridesResponse.data.ride) {
+          // If there's an active ride, redirect to riding screen with the ride data
+          navigate('/captain-riding', { state: { ride: ridesResponse.data.ride } });
+        } else {
+          navigate('/captain-home');
+        }
+      } catch (rideError) {
+        console.error("Error checking active rides:", rideError);
+        navigate('/captain-home'); // Fallback to home if the check fails
+      }
     }
 
     setEmail('')
     setPassword('')
   }
+
   return (
     <div className='p-7 h-screen flex flex-col justify-between bg-cover'
       style={{ backgroundImage: `url(${bg})` }}
