@@ -1,3 +1,88 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply bg-gray-900 text-white overflow-x-hidden;
+  }
+}
+
+@layer components {
+  .container-responsive {
+    @apply w-full px-4 mx-auto sm:px-6 md:px-8;
+    max-width: 100%;
+  }
+  
+  @screen sm {
+    .container-responsive {
+      max-width: 640px;
+    }
+  }
+  
+  @screen md {
+    .container-responsive {
+      max-width: 768px;
+    }
+  }
+  
+  @screen lg {
+    .container-responsive {
+      max-width: 1024px;
+    }
+  }
+  
+  .btn {
+    @apply px-4 py-2 rounded-lg font-semibold transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-700 text-white hover:bg-gray-800;
+  }
+  
+  .btn-yellow {
+    @apply bg-yellow-600 text-white hover:bg-yellow-700;
+  }
+  
+  .input-field {
+    @apply bg-gray-700 text-white px-4 py-2 rounded-lg w-full;
+  }
+  
+  .card {
+    @apply bg-gray-800 rounded-lg p-4 shadow-lg;
+  }
+}
+
+/* Fix for iOS scrolling issues */
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Fix for mobile tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix map container on mobile */
+.map-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* Fix for Firefox */
+@-moz-document url-prefix() {
+  .map-container {
+    height: 100%;
+  }
+}

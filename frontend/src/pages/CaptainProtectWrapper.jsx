@@ -1,55 +1,30 @@
-import React,{useContext, useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {CaptainDataContext} from '../context/CaptainContext'
-import axios from 'axios'
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CaptainDataContext } from '../context/CaptainContext';
 
-const CaptainProtectWrapper = ({children}) => {
+const CaptainProtectWrapper = ({ children }) => {
+  const navigate = useNavigate();
+  const { captain, loading } = useContext(CaptainDataContext);
 
-  const token = localStorage.getItem('token')
-    const navigate = useNavigate()
-    const { captain, setCaptain } = useContext(CaptainDataContext)
-    const [ isLoading, setIsLoading ] = useState(true)
-
-
-
-
-    useEffect(() => {
-        if (!token) {
-            navigate('/captain-login')
-        }
-
-        axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(response => {
-            if (response.status === 200) {
-                setCaptain(response.data)
-                setIsLoading(false)
-            }
-        })
-            .catch(err => {
-
-                localStorage.removeItem('token')
-                navigate('/captain-login')
-            })
-    }, [ token ])
-
-    
-
-    if (isLoading) {
-        return (
-            <div>Loading...</div>
-        )
+  React.useEffect(() => {
+    if (!loading && !captain) {
+      navigate('/captain-login');
     }
+  }, [captain, loading, navigate]);
 
-
-
+  if (loading) {
     return (
-        <>
-            {children}
-        </>
-    )
-}
+      <div className="h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
 
-export default CaptainProtectWrapper
+  if (!captain) {
+    return null; // Will redirect in useEffect
+  }
+
+  return children;
+};
+
+export default CaptainProtectWrapper;

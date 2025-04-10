@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api'
 
 const containerStyle = {
@@ -6,9 +6,9 @@ const containerStyle = {
     height: '100%',
 };
 
-const center = {
-    lat: -3.745,
-    lng: -38.523
+const defaultCenter = {
+    lat: 20.5937,  // Default to center of India if geolocation fails
+    lng: 78.9629
 };
 
 // Dark theme map styles
@@ -93,66 +93,104 @@ const darkMapStyle = [
     },
 ];
 
+const libraries = ["places"];
+
 const LiveTracking = () => {
-    const [ currentPosition, setCurrentPosition ] = useState(center);
+    const [currentPosition, setCurrentPosition] = useState(defaultCenter);
+    const [mapLoaded, setMapLoaded] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const { latitude, longitude } = position.coords;
-            setCurrentPosition({
-                lat: latitude,
-                lng: longitude
-            });
-        });
-
-        const watchId = navigator.geolocation.watchPosition((position) => {
-            const { latitude, longitude } = position.coords;
-            setCurrentPosition({
-                lat: latitude,
-                lng: longitude
-            });
-        });
-
-        return () => navigator.geolocation.clearWatch(watchId);
+    const handleMapLoad = useCallback(() => {
+        setMapLoaded(true);
     }, []);
 
+    // Get initial position using Geolocation API
     useEffect(() => {
-        const updatePosition = () => {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const { latitude, longitude } = position.coords;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setCurrentPosition({
+                        lat: latitude,
+                        lng: longitude
+                    });
+                },
+                (error) => {
+                    console.error("Error getting position:", error);
+                    setErrorMsg("Unable to get your location. Using default position.");
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            setErrorMsg("Geolocation is not supported by your browser");
+        }
+    }, []);
 
-                // console.log('Position updated:', latitude, longitude);
-                setCurrentPosition({
-                    lat: latitude,
-                    lng: longitude
-                });
-            });
+    // Set up position watching
+    useEffect(() => {
+        let watchId;
+        
+        if (navigator.geolocation) {
+            watchId = navigator.geolocation.watchPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    setCurrentPosition({
+                        lat: latitude,
+                        lng: longitude
+                    });
+                },
+                (error) => {
+                    console.error("Error watching position:", error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        return () => {
+            if (watchId) navigator.geolocation.clearWatch(watchId);
         };
-
-        updatePosition(); // Initial position update
-
-        const intervalId = setInterval(updatePosition, 10000); // Update every 10 seconds
-
     }, []);
 
     return (
-        <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={currentPosition}
-                zoom={15}
-                options={{
-                    styles: darkMapStyle,
-                    zoomControl: true,
-                    mapTypeControl: false,
-                    streetViewControl: false,
-                    fullscreenControl: false,
-                }}
+        <div className="w-full h-full relative">
+            {errorMsg && (
+                <div className="absolute top-4 left-0 right-0 mx-auto w-5/6 z-50 bg-red-500 text-white p-2 rounded-md text-center">
+                    {errorMsg}
+                </div>
+            )}
+            
+            <LoadScript
+                googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""}
+                libraries={libraries}
+                onError={(error) => console.error("Map Load Error:", error)}
             >
-                <Marker position={currentPosition} />
-            </GoogleMap>
-        </LoadScript>
-    )
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={currentPosition}
+                    zoom={15}
+                    onLoad={handleMapLoad}
+                    options={{
+                        styles: darkMapStyle,
+                        zoomControl: true,
+                        mapTypeControl: false,
+                        streetViewControl: false,
+                        fullscreenControl: false,
+                        gestureHandling: 'greedy' // Makes the map responsive on mobile
+                    }}
+                >
+                    {mapLoaded && <Marker position={currentPosition} />}
+                </GoogleMap>
+            </LoadScript>
+        </div>
+    );
 }
 
-export default LiveTracking
+export default LiveTracking;
