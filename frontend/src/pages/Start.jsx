@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import image from '../assets/front.png'
-import logo from '../assets/logoWhite.png' // Added missing logo import
+import logo from '../assets/newLogo.png'  // Updated logo import
 
 const Start = () => {
   return (
