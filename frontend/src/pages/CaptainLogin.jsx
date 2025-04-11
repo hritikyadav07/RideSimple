@@ -73,7 +73,7 @@ const CaptainLogin = () => {
             onChange={(e) => {
               setEmail(e.target.value)
             }}
-            className='bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
+            className='mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
             type="email"
             placeholder='email@example.com'
           />
@@ -81,7 +81,7 @@ const CaptainLogin = () => {
           <h3 className='text-lg font-medium mb-2 text-white'>Enter Password</h3>
 
           <input
-            className='bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
+            className='mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
             value={password}
             onChange={(e) => {
               setPassword(e.target.value)
