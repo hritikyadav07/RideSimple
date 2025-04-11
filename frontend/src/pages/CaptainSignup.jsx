@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { CaptainDataContext } from '../context/CaptainContext'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import logo from '../assets/newLogo.png'  // Updated logo import
+import logo from '../assets/caplogo.png'
 import bg from '../assets/capbg.jpg'
 
 const CaptainSignup = () => {

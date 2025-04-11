@@ -12,7 +12,7 @@ import { SocketContext } from '../context/SocketContext';
 import {UserDataContext} from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import LiveTracking from '../components/LiveTracking';
-import logo from '../assets/newLogo.png';  // Updated logo import
+import logo from '../assets/logoWhite.png';
 import { Link } from 'react-router-dom';
 
 function Home() {

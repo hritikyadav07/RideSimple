@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { UserDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../assets/newLogo.png'  // Updated logo import
+import logo from '../assets/logoWhite.png'
 import image from '../assets/bg.jpg';
 
 
