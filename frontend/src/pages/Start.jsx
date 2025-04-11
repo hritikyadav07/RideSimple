@@ -11,7 +11,7 @@ const Start = () => {
         style={{ backgroundImage: `url(${image})` }}
       >
         <div className="pt-8 px-6 sm:pt-10 sm:px-8">
-          <img className="w-64 sm:w-80" src={logo} alt="RideSimple Logo"/>
+          {/* <img className="w-64 sm:w-80" src={logo} alt="RideSimple Logo"/> */}
         </div>
         
         <div className="pb-7 py-4 px-4 sm:px-6 md:px-8 inset-0 bottom-0 bg-gradient-to-b from-gray-900/70 to-transparent">
