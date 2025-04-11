@@ -13,7 +13,7 @@ const rideRoutes = require('./routes/ride.routes');
 connectToDb();
 
 app.use(cors({
-    origin: 'https://ride.hritikyadav.me/',
+    origin: 'https://ride.hritikyadav.me',
     credentials: true
   }));
 
