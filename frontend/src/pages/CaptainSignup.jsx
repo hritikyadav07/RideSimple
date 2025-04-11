@@ -75,7 +75,7 @@ const CaptainSignup = () => {
           <div className='flex gap-4 mb-7'>
             <input
               required
-              className=' w-1/2 rounded-lg px-4 py-2 border  text-lg placeholder:text-base'
+              className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border  text-lg placeholder:text-base'
               type="text"
               placeholder='First name'
               value={firstName}
@@ -84,7 +84,7 @@ const CaptainSignup = () => {
               }}
             />
             <input
-              className=' w-1/2  rounded-lg px-4 py-2 border  text-lg placeholder:text-base'
+              className='bg-[#eeeeee] w-1/2  rounded-lg px-4 py-2 border  text-lg placeholder:text-base'
               type="text"
               placeholder='Last name'
               value={lastName}
@@ -101,7 +101,7 @@ const CaptainSignup = () => {
             onChange={(e) => {
               setEmail(e.target.value)
             }}
-            className=' mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
+            className='bg-[#3f3d3d] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
             type="email"
             placeholder='email@example.com'
           />
@@ -109,7 +109,7 @@ const CaptainSignup = () => {
           <h3 className='text-white text-lg font-medium mb-2'>Enter Password</h3>
 
           <input
-            className=' mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
+            className='bg-[#3f3d3d] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base'
             value={password}
             onChange={(e) => {
               setPassword(e.target.value)
@@ -122,7 +122,7 @@ const CaptainSignup = () => {
           <div className='flex gap-4 mb-7'>
             <input
               required
-              className=' w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+              className='bg-[#3f3d3d] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
               type="text"
               placeholder='Vehicle Color'
               value={vehicleColor}
